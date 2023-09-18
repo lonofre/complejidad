@@ -75,7 +75,8 @@ def encode(encoding: str) -> MatrixEncoding:
         that represents the matrix encoding plus additional data. For example:
         0110110001100
     """
-    total_vertices = count_character(encoding, "\n")
+    total_vertices = count_character(encoding.strip()[:-1], "\n")
+    print(encoding.strip()[:-1])
     row = []
     is_parsing_adjacencies = False
     matrix = []
@@ -115,7 +116,7 @@ def encode(encoding: str) -> MatrixEncoding:
             last_position = adjacency + 1
 
     # Divides k from the matrix
-    matrix.append("10")
+    #matrix.append("10")
     matrix.append(decimal_to_binary(int(k)))
     
     # join uses at worst O(n), while + is O(n^2)
@@ -128,6 +129,8 @@ def encode(encoding: str) -> MatrixEncoding:
 
 if __name__ == "__main__":
 
+    input_file = ""
+    output_file = ""
     try:
         input_file = sys.argv[1]
         output_file = sys.argv[2]
@@ -136,12 +139,12 @@ if __name__ == "__main__":
 
     with open(input_file, "r") as file:
         encoding = file.read()
-        try:
-            matrix = encode(encoding)
-        except ValueError:
-            print("Bad parsing, check the input string")
-            sys.exit(1)
-
+        # try:
+        #     matrix = encode(encoding)
+        # except ValueError:
+        #     print("Bad parsing, check the input string")
+        #     sys.exit(1)
+        matrix = encode(encoding)
     with open(output_file, "w") as file:
         print(f"Número de vértices: {matrix.vertex_count}")
         print(f"Número de aristas: {matrix.edge_count}")
