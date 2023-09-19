@@ -144,17 +144,21 @@ if __name__ == "__main__":
         output_file = sys.argv[2]
     except IndexError:
         print("Not enough arguments")
+        sys.exit(1)
 
-    with open(input_file, "r") as file:
-        encoding = file.read()
-        matrix = encode(encoding)
+    try:
+        with open(input_file, "r") as file:
+            encoding = file.read()
+            matrix = encode(encoding)
 
-    with open(output_file, "w") as file:
-        # Uncomment this to pretty view an file view
-        #print(f"Codificación (formateada): \n{matrix.pretty_encoding}")
-        #print(f"Codificación (en archivo): \n{matrix.encoding}\n")
-        print(f"Número de vértices: {matrix.vertex_count}")
-        print(f"Número de aristas: {matrix.edge_count}")
-        print(f"k: {matrix.k}")
-        file.write(matrix.encoding)
-
+        with open(output_file, "w") as file:
+            if len(sys.argv) > 3 and sys.argv[3] == '--v':
+                print(f"Codificación (formateada): \n{matrix.pretty_encoding}")
+                print(f"Codificación (en archivo): \n{matrix.encoding}\n")
+            print(f"Número de vértices: {matrix.vertex_count}")
+            print(f"Número de aristas: {matrix.edge_count}")
+            print(f"k: {matrix.k}")
+            file.write(matrix.encoding)
+    except IOError:
+        print('Error reading file\nIt exists?')
+        sys.exit(1)
