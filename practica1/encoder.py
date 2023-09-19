@@ -14,6 +14,13 @@ def count_character(text: str, query: str) -> int:
     """Counts the total times a character appears in a given
     text
 
+    Parameters:
+    -----------
+    text: str
+        the text to parse
+    query: str
+        character to search
+
     Returns:
     --------
     int
@@ -28,6 +35,21 @@ def count_character(text: str, query: str) -> int:
 
 
 def repeat_character(char: str, n: int) -> str:
+    """
+    Repeats a character a number of times.
+
+    Parameters:
+    -----------
+    char: str
+        the character to repeat
+    n: int
+        the number of times to repeat a char
+
+    Returns:
+    --------
+    str
+        a string with n repetitions of char
+    """
     string = []
     for i in range(0, n):
         string.append(char)
@@ -37,12 +59,36 @@ def repeat_character(char: str, n: int) -> str:
 
 def fill_empty_positions(start: int, end: int) -> str:
     """Fills with 00 the positions between start and end,
-    for our binary matrix encoding"""
+    for our binary matrix encoding
+
+    Parameters:
+    -----------
+    start: int
+        the start position
+    end: int
+        the end position
+
+    Returns:
+    --------
+    str
+        a string of zeroes
+    """
     return repeat_character("00", end - start)
 
 def decimal_to_binary(decimal_number: int) -> str:
     """Given a decimal number, turns into its binary
-    representation"""
+    representation
+
+    Parameters:
+    -----------
+    decimal_number: int
+        the decinal number to transform
+
+     Returns:
+    --------
+    str
+        the corresponding binary string representation.
+    """
 
     # if decimal_number == 0:
     #     return '0'
