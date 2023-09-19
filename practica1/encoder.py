@@ -150,8 +150,9 @@ if __name__ == "__main__":
         matrix = encode(encoding)
 
     with open(output_file, "w") as file:
-        print(f"Encoding (pretty): \n{matrix.pretty_encoding}")
-        print(f"Encoding (file): \n{matrix.encoding}\n")
+        # Uncomment this to pretty view an file view
+        #print(f"Codificación (formateada): \n{matrix.pretty_encoding}")
+        #print(f"Codificación (en archivo): \n{matrix.encoding}\n")
         print(f"Número de vértices: {matrix.vertex_count}")
         print(f"Número de aristas: {matrix.edge_count}")
         print(f"k: {matrix.k}")
