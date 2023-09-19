@@ -89,21 +89,19 @@ def decimal_to_binary(decimal_number: int) -> str:
     str
         the corresponding binary string representation.
     """
+    if decimal_number == 0:
+        return '0'
 
-    # if decimal_number == 0:
-    #     return '0'
+    binary_digits = []
 
-    # binary_digits = []
+    while decimal_number > 0:
+        remainder = decimal_number % 2
+        binary_digits.append(str(remainder))
+        decimal_number //= 2
 
-    # while decimal_number > 0:
-    #     remainder = decimal_number % 2
-    #     binary_digits.append(str(remainder))
-    #     decimal_number //= 2
-
-    # binary_digits.reverse()
-    # binary_representation = ''.join(binary_digits)
-    # return binary_representation
-    return format(decimal_number, 'b')
+    binary_digits.reverse()
+    binary_representation = ''.join(binary_digits)
+    return binary_representation
 
 
 def encode(encoding: str) -> MatrixEncoding:
