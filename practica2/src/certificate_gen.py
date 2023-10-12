@@ -1,3 +1,5 @@
+import random
+
 def build_ady(ady: list[str]) -> dict[int, list[int]]:
     graph = {}
 
@@ -41,6 +43,26 @@ def decoder(in_str: str) -> tuple[dict[int, list[int]], int]:
     k     = build_k(x)
     return graph, k
 
-t = "00111100111100011100001111001101110000111111000100111100110011011111111100000001110011000000000100110011000000011011"
+def certificate(k: int, graph) -> list[int]:
+    perm = []
+    count = 0
+    size = len(graph.keys()) + 1
+    complete = False
+
+    while count != k:
+        e = random.randrange(size)
+        if e in perm:
+            continue
+
+        perm.append(e)
+        count += 1
+
+    return perm
+
+t = "0000001111110100001111111101000000111111011111110011000111111100000001111111000000011011"
 d, k = decoder(t)
 print(d, k)
+print()
+
+p = certificate(k, d)
+print(f"Certificate of length {k}: {p}")
