@@ -46,6 +46,7 @@ def decoder(in_str: str) -> tuple[dict[int, list[int]], int]:
     k = build_k(x)
     return graph, k
 
+
 def encoder(raw_content: list[str], int_len: int = 16) -> str:
     return "".join([f"{s:0{int_len}b}" for s in raw_content])
 
@@ -86,12 +87,31 @@ def run():
     r = open(entrada, "r").read()
     # ? informacion: Número de vértices, Número de aristas, k
 
-    c = certificado(r)
+    graph, c = certificado(r)
 
     # salida = input("Escribe nombre de archivo de salida: ")
     salida = "salida.txt"
     w = open(salida, "w")
+    w.write(str(graph) + "\n")
     w.write(str(c))
+
+
+def permutations(lst: list[int]) -> list[list[int]]:
+    """
+    Función que recibe una lista y regresa una lista de listas con todas las permutaciones posibles.
+    """
+    if len(lst) == 0:
+        return []
+    elif len(lst) == 1:
+        return [lst]
+    else:
+        l = []
+        for i in range(len(lst)):
+            x = lst[i]
+            xs = lst[:i] + lst[i+1:]
+            for p in permutations(xs):
+                l.append([x] + p)
+        return l
 
 
 def certificado(s: str):
@@ -106,8 +126,11 @@ def certificado(s: str):
     cert = certificate(k, rand_graph)
     print(cert)
 
-    valido = validate(cert, rand_graph)
-    print(valido)
+    perms = permutations(cert)
+    for perm in perms:
+        valido = validate(perm, rand_graph)
+        if valido:
+            return rand_graph, perm
 
 
 def validate(cert: list[int], graph: dict[int, list[int]]) -> bool:
@@ -117,14 +140,11 @@ def validate(cert: list[int], graph: dict[int, list[int]]) -> bool:
     Obteniendo una ruta al azar, checa que las aristas se encuentren en la gráfica.
     """
     for i in range(len(cert)-1):
-        u = cert[i]
-        v = cert[i+1]
-        if v not in graph[u]:
+        if cert[i+1] not in graph[cert[i]]:
             return False
-
-    # Checa ciclo
-    if cert[0] in graph[cert[-1]]:
-        return False
+        for j in range(i+2, len(cert)):
+            if cert[i] in graph[cert[j]]:
+                return False
 
     return True
 
