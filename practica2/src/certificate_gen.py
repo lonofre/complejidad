@@ -87,31 +87,14 @@ def run():
     r = open(entrada, "r").read()
     # ? informacion: Número de vértices, Número de aristas, k
 
-    graph, c = certificado(r)
+    graph, cert, valido = certificado(r)
 
     # salida = input("Escribe nombre de archivo de salida: ")
     salida = "salida.txt"
     w = open(salida, "w")
-    w.write(str(graph) + "\n")
-    w.write(str(c))
-
-
-def permutations(lst: list[int]) -> list[list[int]]:
-    """
-    Función que recibe una lista y regresa una lista de listas con todas las permutaciones posibles.
-    """
-    if len(lst) == 0:
-        return []
-    elif len(lst) == 1:
-        return [lst]
-    else:
-        l = []
-        for i in range(len(lst)):
-            x = lst[i]
-            xs = lst[:i] + lst[i+1:]
-            for p in permutations(xs):
-                l.append([x] + p)
-        return l
+    w.write("Grafo: " + str(graph) + "\n")
+    w.write("Certificado: " + str(cert) + "\n")
+    w.write("Validez: " + str(valido) + "\n")
 
 
 def certificado(s: str):
@@ -126,11 +109,9 @@ def certificado(s: str):
     cert = certificate(k, rand_graph)
     print(cert)
 
-    perms = permutations(cert)
-    for perm in perms:
-        valido = validate(perm, rand_graph)
-        if valido:
-            return rand_graph, perm
+    valido = validate(cert, rand_graph)
+    print(valido)
+    return rand_graph, cert, valido
 
 
 def validate(cert: list[int], graph: dict[int, list[int]]) -> bool:
