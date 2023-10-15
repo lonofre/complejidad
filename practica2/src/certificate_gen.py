@@ -46,6 +46,9 @@ def decoder(in_str: str) -> tuple[dict[int, list[int]], int]:
     k = build_k(x)
     return graph, k
 
+def encoder(raw_content: list[str], int_len: int = 16) -> str:
+    return "".join([f"{s:0{int_len}b}" for s in raw_content])
+
 
 def certificate(k: int, graph: dict[int, list[int]]) -> list[int]:
     perm = []
@@ -55,7 +58,7 @@ def certificate(k: int, graph: dict[int, list[int]]) -> list[int]:
 
     while count != k:
         e = random.randrange(size)
-        if e in perm:
+        if e in perm or e == 0:
             continue
 
         perm.append(e)
