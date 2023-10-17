@@ -1,7 +1,7 @@
 import argparse
-from i_o import *
-import graph as graph_
-import certificate
+from utils.i_o import *
+import utils.graph as graph_
+import utils.certificate as certificate
 
 
 if __name__ == "__main__":
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     parser.add_argument("certificate", help="second argument")
     args = parser.parse_args()
 
-    instance_file = read_file(args.instace)
+    instance_file = read_file(args.instance)
     certificate_file = read_file(args.certificate)
 
     graph, k = graph_.decode(instance_file)
