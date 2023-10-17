@@ -23,3 +23,15 @@ def write_file(target_path:str, content: str) -> None:
     except IOError:
         print("Error while writing file")
         sys.exit(1)
+
+def get_args() ->  tuple[str, str]:
+    input_file = ""
+    output_file = ""
+    try:
+        input_file = sys.argv[1]
+        output_file = sys.argv[2]
+    except IndexError:
+        print("Not enough arguments")
+        sys.exit(1)
+
+    return input_file, output_file

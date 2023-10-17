@@ -1,5 +1,5 @@
+from i_o import get_args, read_file, write_file
 import random
-
 
 def build_ady(ady: list[str]) -> dict[int, list[int]]:
     graph = {}
@@ -22,7 +22,6 @@ def build_k(ady: list[str]) -> int:
 
 
 def decoder(in_str: str) -> tuple[dict[int, list[int]], int]:
-    parsing_line = True
     tmp_line = ''
     x = []
 
@@ -37,7 +36,6 @@ def decoder(in_str: str) -> tuple[dict[int, list[int]], int]:
         if c == "01":
             x.append(tmp_line)
             tmp_line = ''
-            parsing_line = False
             continue
 
         tmp_line += c
@@ -47,7 +45,7 @@ def decoder(in_str: str) -> tuple[dict[int, list[int]], int]:
     return graph, k
 
 
-def encoder(raw_content: list[str], int_len: int = 16) -> str:
+def encoder(raw_content: list[int], int_len: int = 16) -> str:
     return "".join([f"{s:0{int_len}b}" for s in raw_content])
 
 
@@ -150,4 +148,14 @@ def random_graph(n: int, e: int) -> dict[int, list[int]]:
     return graph
 
 
-run()
+#run()
+
+if __name__ == "__main__":
+    in_file, target = get_args()
+    data = read_file(in_file)
+    graph, k = decoder(data)
+
+    cert = certificate(k, graph)
+    encoded = encoder(cert)
+
+    write_file(target, encoded)
