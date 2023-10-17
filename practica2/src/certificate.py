@@ -80,16 +80,37 @@ def generate(k: int, graph: dict[int, list[int]]) -> list[int]:
     return perm
 
 def validate(cert: list[int], graph: dict[int, list[int]]) -> bool:
-    """
-    Función explicada por Malinali, valida que el certificado sea válido.
 
-    Obteniendo una ruta al azar, checa que las aristas se encuentren en la gráfica.
-    """
-    for i in range(len(cert)-1):
-        if cert[i+1] not in graph[cert[i]]:
-            return False
-        for j in range(i+2, len(cert)):
-            if cert[i] in graph[cert[j]]:
-                return False
+    if len(cert) == 0 or len(cert) == 1:
+        return True
 
-    return True
+    visited = visit(cert, graph)
+    distribution = get_distribution(visited, len(cert))
+    
+    if distribution[1] == 2 and distribution[1] + distribution[2] == len(cert):
+        return True
+    return False
+
+
+
+def visit(cert: list[int], graph: dict[int, list[int]]) -> dict:
+    visited = {}
+    for vertex in cert:
+        visited[vertex] = 0
+
+    for vertex in cert:
+        neighborhood = graph[vertex]
+        for neighbor in neighborhood:
+            if neighbor in visited:
+                visited[neighbor] += 1
+
+    return visited
+
+def get_distribution(visited: dict, elements: int) -> list[int]:
+    distribution = [0] * elements
+    items = 0
+    for vertex in visited:
+        times = visited[vertex]
+        distribution[times] += 1
+
+    return distribution
