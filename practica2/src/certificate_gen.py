@@ -1,6 +1,6 @@
 from i_o import get_args, read_file, write_file
-import certificate
-import graph as graph_
+from graph import decode as grpah_decoder
+from certificate import generate, encode
 
 def run():
     """
@@ -42,9 +42,9 @@ def certificado(s: str):
 if __name__ == "__main__":
     in_file, target = get_args()
     data = read_file(in_file)
-    graph, k = graph_.decoder(data)
+    graph, k = grpah_decoder(data)
 
-    cert = certificate(k, graph)
-    encoded = certificate.encode(cert)
+    cert = generate(k, graph)
+    encoded = encode(cert)
 
     write_file(target, encoded)
