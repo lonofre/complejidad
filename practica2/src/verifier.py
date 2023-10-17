@@ -2,6 +2,7 @@ import argparse
 from utils.i_o import *
 import utils.graph as graph_
 import utils.certificate as certificate
+import math
 
 
 if __name__ == "__main__":
@@ -19,8 +20,10 @@ if __name__ == "__main__":
 
     is_valid = certificate.validate(cert, graph)
 
-    print("Total number of elements in S")
-    print("Total number of subsets in C")
+    elements = len(graph)
+
+    print("Total number of elements in G(V): ", elements)
+    print("Total number of subsets in C", math.perm(elements, k))
     print(f"K: {k}")
     print(f"Is valid?: {is_valid}")
 
