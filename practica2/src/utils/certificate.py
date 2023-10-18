@@ -38,9 +38,9 @@ def decode(code: str, int_len: int = 16) -> list[int]:
     list[int]
         a list that represents the certificate
     """
-
+    code = code.strip()
     certificate = []
-    for i in range(int_len, len(certificate) + int_len, int_len):
+    for i in range(int_len, len(code) + int_len, int_len):
         number = int(code[i - int_len : i], 2)
         certificate.append(number)
 
