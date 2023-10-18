@@ -27,11 +27,12 @@ if __name__ == "__main__":
     graph, k = graph_.decode(instance_file)
     cert = certificate.decode(certificate_file)
 
-    is_valid = certificate.validate(cert, graph)
+    is_valid, route = certificate.validate(cert, graph)
 
     elements = len(graph)
 
-    
+    print(f"- Graph: {graph}")
+    print(f"- Certificate: {cert}")
+    print(f"- Route: {route}")
     print(f"- k: {k}")
     print(f"- is valid?: {is_valid}")
-

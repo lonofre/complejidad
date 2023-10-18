@@ -1,9 +1,10 @@
 import random
 
+
 def encode(raw_content: list[int], int_len: int = 16) -> str:
     """Encode each number of raw_content in its
     `int_len`-bits representation
-    
+
     Parameters
     ----------
     raw_content: list[int]
@@ -24,7 +25,7 @@ def encode(raw_content: list[int], int_len: int = 16) -> str:
 def decode(code: str, int_len: int = 16) -> list[int]:
     """Decode a certificate, which is made up of chunks
     of `int_len`-bits
-    
+
     Parameters
     ----------
     code: str
@@ -41,7 +42,7 @@ def decode(code: str, int_len: int = 16) -> list[int]:
     code = code.strip()
     certificate = []
     for i in range(int_len, len(code) + int_len, int_len):
-        number = int(code[i - int_len : i], 2)
+        number = int(code[i - int_len: i], 2)
         certificate.append(number)
 
     return certificate
@@ -49,7 +50,7 @@ def decode(code: str, int_len: int = 16) -> list[int]:
 
 def generate(k: int, graph: dict[int, list[int]]) -> list[int]:
     """Generates a random certificate
-    
+
     Parameters
     ----------
     k: int
@@ -78,10 +79,11 @@ def generate(k: int, graph: dict[int, list[int]]) -> list[int]:
 
     return perm
 
-def validate(cert: list[int], graph: dict[int, list[int]]) -> bool:
+
+def validate(cert: list[int], graph: dict[int, list[int]]) -> (bool, list[int]):
     """Verifiy the given certificate is a correct answer to the
     induced path problem
-    
+
     Returns
     -------
     bool
@@ -93,12 +95,15 @@ def validate(cert: list[int], graph: dict[int, list[int]]) -> bool:
 
     visited = visit(cert, graph)
     distribution = get_distribution(visited, len(cert))
-    
-    if distribution[1] == 2 and distribution[1] + distribution[2] == len(cert):
-        return not is_disconnected(visited, cert, graph)
-    return False
 
-def is_disconnected(visited:  dict[int, int], cert: list[int], graph:  dict[int, list[int]]) -> bool:
+    if distribution[1] == 2 and distribution[1] + distribution[2] == len(cert):
+        is_disc, path = is_disconnected(visited, cert, graph)
+        return not is_disc, path
+
+    return False, None
+
+
+def is_disconnected(visited:  dict[int, int], cert: list[int], graph:  dict[int, list[int]]) -> (bool, list[int]):
     """Check whether exists a path from the given
     certificate in the graph.
 
@@ -113,34 +118,37 @@ def is_disconnected(visited:  dict[int, int], cert: list[int], graph:  dict[int,
         if visited[key] == 1:
             start = key
             break
-    
-    path = { start }
-    cert_set = set(cert)
-    
-    current = start
-    while len(path) < len(visited):
-       neighborhood = graph[current]
-       search_set = set(neighborhood).intersection(cert_set).difference(path)
-       next_vertex = next((v for v in search_set), 0)
-       if not next_vertex:
-           return True
-       else:
-           path.add(next_vertex)
-           current = next_vertex
 
-    return False
+    seen = {start}
+    path = [start]
+    cert_set = set(cert)
+
+    current = start
+    while len(seen) < len(visited):
+        neighborhood = graph[current]
+        search_set = set(neighborhood).intersection(cert_set).difference(seen)
+        next_vertex = next((v for v in search_set), 0)
+        if not next_vertex:
+            return True, None
+        else:
+            seen.add(next_vertex)
+            path.append(next_vertex)
+            current = next_vertex
+
+    return False, path
+
 
 def visit(cert: list[int], graph: dict[int, list[int]]) -> dict:
     """For each vertex in the certificate, explores its neighborhood
     and marks a neighbor as visited if it is in the certificate 
-    
+
     Returns
     -------
     dict
         where the keys are the vertices and their values
         how many times were visited
     """
-    
+
     visited = {}
     for vertex in cert:
         visited[vertex] = 0
@@ -152,6 +160,7 @@ def visit(cert: list[int], graph: dict[int, list[int]]) -> dict:
                 visited[neighbor] += 1
 
     return visited
+
 
 def get_distribution(visited: dict, elements: int) -> list[int]:
     """Gets the distribution of visited vertex"""
