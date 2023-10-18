@@ -2,10 +2,19 @@ import argparse
 from utils.i_o import *
 import utils.graph as graph_
 import utils.certificate as certificate
-import math
 
 
 if __name__ == "__main__":
+    """
+    Practice 2
+    Computational Complexity 2024-1
+
+    Verifier.
+    Given an encoded graph passed as argument,
+    and a random encoded certificate of length k
+    determines if the problem belongs to the
+    simple route problem.
+    """
 
     parser = argparse.ArgumentParser()
     parser.add_argument("instance", help="first argument")
