@@ -22,8 +22,7 @@ if __name__ == "__main__":
 
     elements = len(graph)
 
-    print("Total number of elements in G(V): ", elements)
-    print("Total number of subsets in C", math.perm(elements, k))
-    print(f"K: {k}")
-    print(f"Is valid?: {is_valid}")
+    
+    print(f"- k: {k}")
+    print(f"- is valid?: {is_valid}")
 
